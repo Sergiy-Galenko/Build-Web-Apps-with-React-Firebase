@@ -45,7 +45,7 @@ function App() {
                     </button>
                 </div>
             )}
-            {showEvents && <EventList events={events} handelClick={handelClick}/>}
+            {showEvents && <EventList events={events} handelClick={handelClick} isSalesModal={true}/>}
             {showModal && (
                 <Modal handelClose={handelClose}>
                     <h2>10% off code</h2>
