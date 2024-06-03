@@ -1,28 +1,61 @@
 import "./App.css";
-import { useState } from "react";
+import React, { useState } from "react";
+import Title from "./components/Title";
+import Modal from "./components/Modal";
+import EventList from "./components/EventList";
 
 function App() {
-    const [myName, setName] = useState("Sergii");
+    const [showModal, setShowModal] = useState(true);
+    const [showEvents, setShowEvents] = useState(true);
     const [events, setEvents] = useState([
         { title: "mario", id: 1 },
         { title: "super sell", id: 2 },
         { title: "apple", id: 3 },
     ]);
 
-    const handelClick = () => {
-        setName("Halenko");
-        console.log(myName);
+    const handelClick = (id) => {
+        setEvents(
+            events.filter((events) => {
+                return id !== events.id;
+            })
+        );
+        console.log(id);
     };
+
+    const handelClose = () => {
+        setShowModal(false);
+    };
+
+    const subtitle = "Sergii Helanl Lesson";
 
     return (
         <div classNam="App">
-            <h1>My name is {myName}</h1>
-            <button onClick={handelClick}>Change name</button>
-            {events.map((event, index) => (
-                <div key={event.id}>
-                    <h2>{index} - {event.title}</h2>
+            <Title title="hello React-JS" subtitle={subtitle} />
+            {showEvents && (
+                <div>
+                    <button onClick={() => setShowEvents(false)}>
+                        hide events
+                    </button>
                 </div>
-            ))}
+            )}
+            {!showEvents && (
+                <div>
+                    <button onClick={() => setShowEvents(true)}>
+                        show events
+                    </button>
+                </div>
+            )}
+            {showEvents && <EventList events={events} handelClick={handelClick}/>}
+            {showModal && (
+                <Modal handelClose={handelClose}>
+                    <h2>10% off code</h2>
+                    <p>Use the code Ninja at the checkout.</p>
+                    <a href="#">find out more</a>
+                </Modal>
+            )}
+            <div>
+                <button onClick={() => setShowModal(true)}>Show Modal</button>
+            </div>
         </div>
     );
 }

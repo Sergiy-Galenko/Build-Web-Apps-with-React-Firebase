@@ -1,4 +1,9 @@
 .App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  flex-direction: column;
   text-align: center;
 }
 
@@ -32,7 +37,18 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.title {
+  display: inline-block;
+  padding: 30px 60px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  font-weight: normal;
+  margin-bottom: 10px;
+  text-align: center;
 }
