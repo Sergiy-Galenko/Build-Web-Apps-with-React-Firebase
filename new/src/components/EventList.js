@@ -8,6 +8,9 @@ export default function EventList({ events, handelClick }) {
                     <h2>
                         {index} - {event.title}
                     </h2>
+                    <p>
+                        {event.location} - {event.date}
+                    </p>
                     <button onClick={() => handelClick(event.id)}>
                         delet event
                     </button>
