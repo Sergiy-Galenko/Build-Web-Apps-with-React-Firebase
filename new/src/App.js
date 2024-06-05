@@ -3,15 +3,19 @@ import React, { useState } from "react";
 import Title from "./components/Title";
 import Modal from "./components/Modal";
 import EventList from "./components/EventList";
+import NewEventFrom from "./components/NewEvetForm";
 
 function App() {
     const [showModal, setShowModal] = useState(true);
     const [showEvents, setShowEvents] = useState(true);
-    const [events, setEvents] = useState([
-        { title: "mario", id: 1 },
-        { title: "super sell", id: 2 },
-        { title: "apple", id: 3 },
-    ]);
+    const [events, setEvents] = useState([]);
+
+    const addEvent = (event) => {
+        setEvents((prevEvents) => {
+            return [...prevEvents, event];
+        });
+        setShowEvents(false);
+    };
 
     const handelClick = (id) => {
         setEvents(
@@ -45,16 +49,22 @@ function App() {
                     </button>
                 </div>
             )}
-            {showEvents && <EventList events={events} handelClick={handelClick} isSalesModal={true}/>}
+            {showEvents && (
+                <EventList
+                    events={events}
+                    handelClick={handelClick}
+                    isSalesModal={true}
+                />
+            )}
             {showModal && (
                 <Modal handelClose={handelClose}>
-                    <h2>10% off code</h2>
-                    <p>Use the code Ninja at the checkout.</p>
-                    <a href="#">find out more</a>
+                    <NewEventFrom addEvent={addEvent} />
                 </Modal>
             )}
             <div>
-                <button onClick={() => setShowModal(true)}>Show Modal</button>
+                <button onClick={() => setShowModal(true)}>
+                    Add New Events
+                </button>
             </div>
         </div>
     );
