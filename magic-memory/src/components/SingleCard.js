@@ -1,21 +1,21 @@
 import "./SingleCard.css";
-export default function SingleCard({ card, handleChoice }) {
+export default function SingleCard({ card, handleChoice, flipped }) {
     const handleClick = () => {
-        handleChoice(card);
+        if (!flipped) {
+            handleChoice(card);
+        }
     };
 
     return (
-        <div>
-            <div className="card" key={card.id}>
-                <div>
-                    <img className="font" src={card.src} alt="card front" />
-                    <img
-                        className="back"
-                        src="/img/cover.png"
-                        onClick={handleClick}
-                        alt="card back"
-                    />
-                </div>
+        <div className="card">
+            <div className={flipped ? "flipped" : ""}>
+                <img className="front" src={card.src} alt="card front" />
+                <img
+                    className="back"
+                    src="/img/cover.png"
+                    onClick={handleClick}
+                    alt="card back"
+                />
             </div>
         </div>
     );

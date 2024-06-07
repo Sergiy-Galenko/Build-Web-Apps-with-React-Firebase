@@ -15,6 +15,7 @@ function App() {
     const [turns, setTurns] = useState(0);
     const [choiceOne, setChoiceOne] = useState(null);
     const [choiceTwo, setChoiceTwo] = useState(null);
+
     const shuffleCards = () => {
         const shuffledCards = [...cardImage, ...cardImage]
             .sort(() => Math.random() - 0.5)
@@ -31,18 +32,18 @@ function App() {
     useEffect(() => {
         if (choiceOne && choiceTwo) {
             if (choiceOne.src === choiceTwo.src) {
-                setCards((prevCard) => {
-                    return prevCard.map( card => {
+                setCards((prevCards) => {
+                    return prevCards.map((card) => {
                         if (card.src === choiceOne.src) {
                             return { ...card, matched: true };
                         } else {
-                            return card
+                            return card;
                         }
                     });
                 });
                 resetTurn();
             } else {
-                resetTurn();
+                setTimeout(() => resetTurn(), 1000); // додано затримку перед скиданням
             }
         }
     }, [choiceOne, choiceTwo]);
@@ -63,6 +64,7 @@ function App() {
                         key={card.id}
                         card={card}
                         handleChoice={handleChoice}
+                        flipped={card === choiceOne || card === choiceTwo || card.matched}
                     />
                 ))}
             </div>
