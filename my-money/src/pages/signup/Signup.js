@@ -1,23 +1,30 @@
-import { useState } from 'react'
-
-// styles
-import styles from './Signup.module.css'
+import React from 'react';
+import { useState } from 'react';
+import { useSignup } from '../../hooks/useSignup';
+import { useAutheContext } from '../../context/AuthContext';
+import styles from './Signup.module.css';
 
 export default function Signup() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [displayName, setDisplayName] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [displayName, setDisplayName] = useState('');
+  const { signup, error, isPending } = useSignup();
+  const { user } = useAutheContext();
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(email, password, displayName)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await signup(email, password, displayName);
+  };
+
+  if (user) {
+    return <p>You are already signed up and logged in!</p>;
   }
 
   return (
     <form onSubmit={handleSubmit} className={styles['signup-form']}>
-      <h2>sign up</h2>
+      <h2>Sign Up</h2>
       <label>
-        <span>email:</span>
+        <span>Email:</span>
         <input 
           type="email" 
           onChange={(e) => setEmail(e.target.value)} 
@@ -25,7 +32,7 @@ export default function Signup() {
         />
       </label>
       <label>
-        <span>password:</span>
+        <span>Password:</span>
         <input 
           type="password" 
           onChange={(e) => setPassword(e.target.value)} 
@@ -33,14 +40,17 @@ export default function Signup() {
         />
       </label>
       <label>
-        <span>display name:</span>
+        <span>Display Name:</span>
         <input 
           type="text" 
           onChange={(e) => setDisplayName(e.target.value)}
           value={displayName}
         />
       </label>
-      <button className="btn">Sign up</button>
+      <button className="btn" disabled={isPending}>
+        {isPending ? 'Loading...' : 'Sign Up'}
+      </button>
+      {error && <p className="error">{error}</p>}
     </form>
-  )
+  );
 }
