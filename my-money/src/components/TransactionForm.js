@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useFirestore } from '../hooks/useFirestore';
+import { serverTimestamp } from 'firebase/firestore'; // Додайте цей імпорт
 import styles from './TransactionForm.module.css';
 
 export default function TransactionForm({ uid }) {
@@ -12,8 +13,8 @@ export default function TransactionForm({ uid }) {
     addDocument({
       uid,
       name,
-      amount,
-      createdAt: new Date()
+      amount: parseFloat(amount), // Ensure amount is a number
+      createdAt: serverTimestamp(), // Використовуйте serverTimestamp
     });
     setName('');
     setAmount('');
@@ -41,6 +42,7 @@ export default function TransactionForm({ uid }) {
         />
       </label>
       <button className="btn">Add Transaction</button>
+      {response.error && <p className="error">{response.error}</p>}
     </form>
   );
 }
