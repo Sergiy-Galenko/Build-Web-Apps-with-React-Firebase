@@ -5,8 +5,9 @@ import { useAutheContext } from './context/AuthContext';
 import Home from './pages/home/Home';
 import Login from './pages/login/Login';
 import Signup from './pages/signup/Signup';
-import Navbar from './components/Navbar';
 import Dashboard from './pages/dashboard/Dashboard'; // Додайте цей імпорт
+import Navbar from './components/Navbar';
+import ProtectedRoute from './components/ProtectedRoute'; // Додайте цей імпорт
 
 function App() {
   const { user, isAuthReady } = useAutheContext();
@@ -29,8 +30,14 @@ function App() {
         )}
         {user && (
           <>
-            {/* Authenticated routes */}
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
           </>
         )}
       </Routes>
